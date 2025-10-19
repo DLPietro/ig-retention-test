@@ -2,9 +2,9 @@
 
 > _**“If I can’t access real player data, I’ll simulate it, and still extract business insights.”**_
 
-This mini project reproduces a **realistic iGaming retention experiment**, from **data generation** to **A/B testing** and **churn prediction modeling**, built entirely in **Python 3**.
+This repository reproduces a **realistic iGaming retention experiment**, from **data generation** to **A/B testing** and **churn prediction modeling**, built entirely in **Python 3**.
 
-The goal: to test if a new feature (the “treatment”) improves player retention over a control group — and to quantify it statistically and predictively.
+**Main goal**: to test if a new feature (the “treatment”) improves player retention over a control group — and to quantify it statistically and predictively.
 
 ---
 
@@ -20,7 +20,7 @@ This repository simulates the **complete analytics workflow** used in iGaming fo
 
 ---
 
-## 🧩 1. Data Generation — A/B Groups
+## 🧩 Data Generation - A/B Groups (⚠️⚠️ TEMPORARY ⚠️⚠️)
 
 Using `numpy` and `pandas`, we simulate a dataset of **70,000 players**, randomly split between a **control** and a **treatment** group.
 
@@ -38,40 +38,86 @@ The treatment group simulates a feature rollout or bonus exposure.
 ```python
 ✅ Dataset saved to simulated_users.csv  
 70,000 rows × 6 columns
+```
 
 ---
 
-## 🧮 2. A/B Test Analysis
+## 🧮 A/B Test Analysis (⚠️⚠️ TEMPORARY ⚠️⚠️)
 
 After generating the dataset, we compare the retention rates (1 - churn) between control and treatment.
 
-Group	Retention Rate
-Control	56.8%
-Treatment	66.6%
+>  **Group  Retention Rate**
+> 
+>  **Control    56.8%**
+>
+>  **Treatment  6.6%**
 
-A Chi-square test confirms this difference is statistically significant:
+A _Chi-square_ test confirms this difference is statistically significant:
 
 ```text
 Chi-square: 712.02
 P-value: 0.0000 ✅
 ```
-> The treatment clearly increased player retention — around +10 percentage points.
+> The treatment clearly increased player retention, around +10 percentage points.
 
 ---
 
 ## 📊 Visualization
 
-Barplot comparing retention across groups:
+![Barplot comparing retention across groups](https://github.com/DLPietro/ig-retention-test/blob/main/results/retention_rates.png)
 
-
-Treatment users retained significantly more than control.
+_*Treatment users retained significantly more than control*_.
 
 ---
 
-## 🤖 3. Churn Prediction Model
+## 🤖 Churn Prediction Model (⚠️⚠️ TEMPORARY ⚠️⚠️)
 
+A Logistic Regression model has trained using:
 
+> Sessions count, Total Deposits and Feature Usage
+>
+> **Target:** _churn (1 = player left)_
 
+| Metric | Value |
+|-----------|----|
+| `AUC Score` | 0.531 |
+| `Accuracy` | 62% |
+| `Recall (Churn=1)` | 0% |
+| `Precision (Churn=1)` | 0% |
+
+> ⚠️⚠️ DISCLAIMER!! ⚠️⚠️: The baseline model is weak, it predicts the majority class (no churn).
+>
+> That’s actually typical in early-stage churn modeling when class imbalance is strong.
+
+# 🧭 Feature Importance
+
+| Feature | Coefficient |
+|-----------|----|
+| `Sessions` | Slightly negative |
+| `Deposits` | Negative |
+| `Feature Used` | Strongly negative |
+
+---
+
+## 🛠 Methodology & Tools
+
+- Data simulation using **Numpy & Pandas**
+- **Scipy.stats** for Statistical Testing
+- **Matplotlib, Seaborn** for Data Visualization (_churn probability & retention rates by group_)
+- Logistic Regression model with **Sklearn** library
+- Export in _CSV, PNG_ outputs
+
+---
+
+## 🧭 All is beautiful, but why this project?
+
+A single repository in iGaming is not enough to understand the work behind it: so I created another project to **master the KPI factors** an iGaming company research on to maximise profits, marketing campaign and efficiency.
+
+In addition, I wanted to start using **Machine learning tools** to improve and enhance my analytical skills.
+
+---
+
+## 🏡 Project Structure
 
 ```text
 user-retention-experiment/
@@ -97,7 +143,19 @@ user-retention-experiment/
 └── requirements.txt                     # Ptrhon Libraries
 
 ```
-# ⚡ Credits
+
+---
+
+## 🔗 Related Work
+
+- [📊 My Data Journey Blog](https://dlpietro.github.io) — Weekly updates on my upskilling  
+- [🧠 My Learning Roadmap](https://github.com/DLPietro/learning-roadmap) — Publicly tracked progress  
+- [🎲 iGaming Analytics Dashboard](https://github.com/DLPietro/igaming-analytics-case-study) — KPI and players Retention (_Cohort, Church..._)
+- [📈 Empirical Analysis: S&P 500 vs IVV vs Fidelity](https://github.com/DLPietro/thesis-backtesting-etf-spx) — Using R, GARCH, backtesting
+
+---
+
+## ⚡ Credits
 
 [![GitHub Profile](https://img.shields.io/badge/GitHub-DLPietro-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/DLPietro)
 [![Email](https://img.shields.io/badge/Email-dileopie-d14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dileopie@gmail.com)
