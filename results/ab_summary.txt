@@ -1,14 +1,24 @@
-A/B Test Summary from Jupyter Notebook
-	group 	retained 	retention_rate_%
-0 	control 	0.568116 	56.81
-1 	treatment 	0.666199 	66.62
+📊 Retention Analysis Results
+   user_group	total_players	churned	retained	retention_rate_pct
+   0	control	34891	15242	19649	56.32
+   1	treatment	35109	12024	23085	65.75
 
-AUC: 0.531
-              precision    recall  f1-score   support
+✅ Chi-square test for retention difference
+   Chi-square statistic: 655.00
+   P-value: 0.0000
 
-           0       0.62      1.00      0.77     13014
-           1       0.00      0.00      0.00      7986
+✅ Logistic Regression Churn Model Results
+   AUC: 0.547
+   precision    recall  f1-score   support
 
-    accuracy                           0.62     21000
-   macro avg       0.31      0.50      0.38     21000
-weighted avg       0.38      0.62      0.47     21000
+   0       0.64      0.56      0.60     12820
+   1       0.43      0.52      0.47      8180
+
+   accuracy                           0.54     21000
+   macro avg       0.53      0.54      0.53     21000
+   weighted avg       0.56      0.54      0.55     21000
+
+           Feature  Coefficient
+   0      sessions    -0.026931
+   1      deposits    -0.000377
+   2  feature_used    -0.196687

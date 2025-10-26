@@ -2,38 +2,37 @@
 
 > _**“If I can’t access real player data, I’ll simulate it, and still extract business insights.”**_
 
-This repository reproduces a **realistic iGaming retention experiment**, from **data generation** to **A/B testing** and **churn prediction modeling**, built entirely in **Python 3**.
+This repository reproduces a **realistic iGaming retention experiment**, from **simulated data generation** to **A/B testing** and **churn modeling**, built entirely in **Python 3** and **SQL/Pandas/Ploty**.
 
-**Main goal**: to test if a new feature (the “treatment”) improves player retention over a control group — and to quantify it statistically and predictively.
+**Main goal**: Test if a new feature (the “treatment”) improves player retention over a control group, and quantify the impact both statistically and predictively.
 
 ---
 
 ## 🧠 Project Overview
 
-This repository simulates the **complete analytics workflow** used in iGaming for evaluating feature performance and user retention:
+This repository simulates the **end-to-end analytics workflow** used in iGaming for evaluating feature effects on user retention:
 
 1. Generate a synthetic dataset of **70,000 users**
-2. Split them into **Control vs Treatment**
+2. Split into **Control vs Treatment**
 3. Simulate sessions, deposits, and feature usage
-4. Run a **retention A/B test**
+4. Run a **retention A/B test** and statistical significance check
 5. Train a **logistic regression churn model**
+6. Visualize everything with **Plotly**
 
 ---
 
-## 🧩 Data Generation - A/B Groups (⚠️⚠️ TEMPORARY ⚠️⚠️)
+## 🧩 Data Generation - A/B Groups
 
-Using `numpy` and `pandas`, we simulate a dataset of **70,000 players**, randomly split between a **control** and a **treatment** group.
-
-The treatment group simulates a feature rollout or bonus exposure.
+Using `numpy` and `pandas`, let's simulate a dataset of **70,000 players**, split equally between **control** and **treatment**.
 
 | Variable | Description | Distribution |
 |-----------|--------------|---------------|
-| `sessions` | Number of daily game sessions | Poisson (λ = 5) |
-| `deposits` | Total deposited amount (€) | Gamma (shape=2, scale=50) |
-| `feature_used` | Whether the new feature was used | Binomial (p=0.4 / 0.7) |
-| `churn` | Player left or not | Binomial (with dynamic probability by group) |
+| `sessions` | Number of sessions | Poisson (λ = 5, Treatment: +2) |
+| `deposits` | Total deposited amount (€) | Gamma (shape=2, scale=50), treatment: +€20 boost |
+| `feature_used` | Whether the new feature was used | Binomial (p=0.4 for control, p=0.7 for treatment) |
+| `churn` | Player left or not | Binomial, dynamic probability by group/features |
 
-> 🎯 Treatment players show **+15 avg deposit boost** and **slightly higher session count**.
+> 🎯 Treatment players show **higher deposits and slightly more sessions than control.**.
 
 ```python
 ✅ Dataset saved to simulated_users.csv  
@@ -42,70 +41,75 @@ The treatment group simulates a feature rollout or bonus exposure.
 
 ---
 
-## 🧮 A/B Test Analysis (⚠️⚠️ TEMPORARY ⚠️⚠️)
+## 🧮 A/B Test Analysis: Retention Results
 
-After generating the dataset, we compare the retention rates (1 - churn) between control and treatment.
+After generating the dataset, we compare retention (1 - churn) between groups:
 
->  **Group  Retention Rate**
-> 
->  **Control    56.8%**
+| user_group | total_players | retention_rate_pct |
+|-----------|--------------|---------------|
+| _control_ | 34,891 | 56.3% |
+| _treatment_ | 35,109 | 65.8% |
+
+> **Treatment group** retention is **~9.5 percentage points higher**.
 >
->  **Treatment  6.6%**
-
-A _Chi-square_ test confirms this difference is statistically significant:
+> A _Chi-square_ test confirms statistical significance:
 
 ```text
-Chi-square: 712.02
+Chi-square: 655.00
 P-value: 0.0000 ✅
 ```
-> The treatment clearly increased player retention, around +10 percentage points.
+> **Conclusion:** The new feature/treatment produces a clear, significant uplift in player retention.
 
 ---
 
 ## 📊 Visualization
 
+_*Both retention and deposits are higher for the treatment group:*_.
+
 ![Barplot comparing retention across groups](https://github.com/DLPietro/ig-retention-test/blob/main/results/retention_rates.png)
 
-_*Treatment users retained significantly more than control*_.
+![Deposit amount histogram across groups](https://github.com/DLPietro/ig-retention-test/blob/main/results/deposit_boxplot.png)
+
 
 ---
 
-## 🤖 Churn Prediction Model (⚠️⚠️ TEMPORARY ⚠️⚠️)
+## 🤖 Churn Prediction Model
 
-A Logistic Regression model has trained using:
+A Logistic Regression model is trained to predict churn:
 
-> Sessions count, Total Deposits and Feature Usage
+> **Features**: Sessions, Deposits, Feature Used
 >
 > **Target:** _churn (1 = player left)_
 
+![Churn Probability for the model](https://github.com/DLPietro/ig-retention-test/blob/main/results/churn_probability.png)
+
 | Metric | Value |
 |-----------|----|
-| `AUC Score` | 0.531 |
-| `Accuracy` | 62% |
-| `Recall (Churn=1)` | 0% |
-| `Precision (Churn=1)` | 0% |
+| `AUC Score` | 0.547 |
+| `Accuracy` | 54% |
+| `Recall (Churn=1)` | 52% |
+| `Precision (Churn=1)` | 43% |
 
-> ⚠️⚠️ DISCLAIMER!! ⚠️⚠️: The baseline model is weak, it predicts the majority class (no churn).
->
-> That’s actually typical in early-stage churn modeling when class imbalance is strong.
+> The model performs only slightly better than random. This is common with synthetic or highly balanced data and few features.
 
-# 🧭 Feature Importance
 
-| Feature | Coefficient |
-|-----------|----|
-| `Sessions` | Slightly negative |
-| `Deposits` | Negative |
-| `Feature Used` | Strongly negative |
+# 🧭 Feature Importance (Coefficients)
+
+| **Feature** | **Coefficient** | **Interpretation** |
+|-------------|-----------------|--------------------|
+| `Sessions` | -0.027 | More sessions = lower churn |
+| `Deposits` | -0.0004 | More deposits = lower churn |
+| `Feature Used` | -0.197 | Used feature = much lower churn |
 
 ---
 
 ## 🛠 Methodology & Tools
 
-- Data simulation using **Numpy & Pandas**
-- **Scipy.stats** for Statistical Testing
-- **Matplotlib, Seaborn** for Data Visualization (_churn probability & retention rates by group_)
-- Logistic Regression model with **Sklearn** library
-- Export in _CSV, PNG_ outputs
+- Data simulation: **Numpy & Pandas**
+- Statistical Testing: **Scipy.stats**
+- SQL-based aggregation: **SQLite**
+- Visualization: **Plotly** (fully interactive)
+- Machine Learning: **Scikit-learn** logistic regression
 
 ---
 
@@ -123,24 +127,26 @@ In addition, I wanted to start using **Machine learning tools** to improve and e
 user-retention-experiment/
 │
 ├── data/
-│   └── simulated_users.csv              # Generated synthetic users dataset
+│   └── simulated_users.csv              # Synthetic dataset
 │
 ├── notebooks/
-│   └── ab_test_analysis.ipynb           # Complete notebook
+│   ├── ab_test_analysis.py              # Statistic tests
+│   └── player_data.db                   # MySQL database
 │
 ├── scripts/
-│   ├── generate_data.py                 # Dataset generator
+│   ├── generate_data.py                 # Data generator
 │   ├── ab_test_analysis.py              # Statistic tests
 │   └── churn_model.py                   # Predictive LLM model
 │
 ├── results/
-│   ├── retention_rates.png              # Retention plot
-│   ├── churn_probability.png            # ML model plot
-│   └── ab_summary.txt                   # Test Results
+│   ├── retention_rates.png              # Retention barplot
+│   ├── deposit_boxplot.png              # Deposit boxplot
+│   ├── churn_probability.png            # Churn model plot
+│   └── ab_summary.txt                   # Statistical test results
 │
 ├── LICENSE                              # GNU License v3.0
 ├── README.md                            # Project Description
-└── requirements.txt                     # Ptrhon Libraries
+└── requirements.txt                     # Python Libraries
 
 ```
 
