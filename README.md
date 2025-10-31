@@ -101,7 +101,7 @@ I’ve built a **fully interactive dashboard** in Tableau Public that lets you:
 
 🔗 **[View the Live Dashboard →](https://public.tableau.com/views/ABRetentionChurnOverview-DLPietro/RetentionAnalysisDashboard?:language=it-IT&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)**
 
-![Tableau Dashboard Preview](https://github.com/DLPietro/retention-test/raw/dashboard/retention_dashboard.png)
+![Tableau Dashboard Preview](https://github.com/DLPietro/retention-test/blob/main/dashboard/retention_dashboard.png)
 *Screenshot: Interact with A/B retention, deposits, sessions, feature rates. Dashboard ready for commercial and technical review.*
 
 
