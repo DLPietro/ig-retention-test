@@ -2,7 +2,7 @@
 
 > _**“If I can’t access real player data, I’ll simulate it, and still extract business insights.”**_
 
-This repository reproduces a **realistic iGaming retention experiment**, from **simulated data generation** to **A/B testing** and **churn modeling**, built entirely in **Python 3** and **SQL/Pandas/Ploty**.
+This repository reproduces a **realistic iGaming retention experiment**, from **simulated data generation** to **A/B testing** and **churn modeling**, built entirely in **Python 3** and **SQL/Pandas/Plotly**.
 
 **Main goal**: Test if a new feature (the “treatment”) improves player retention over a control group, and quantify the impact both statistically and predictively.
 
@@ -18,6 +18,24 @@ This repository simulates the **end-to-end analytics workflow** used in iGaming 
 4. Run a **retention A/B test** and statistical significance check
 5. Train a **logistic regression churn model**
 6. Visualize everything with **Plotly**
+
+---
+
+## 📚 Data Sources — Industry Benchmarks for Simulation
+
+All modeling parameters are based on real iGaming KPIs and published data from leading reports and regulators:
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| **Session Frequency (Slot Games, per week)** | 15–40 | [EGBA, 2023 European Gaming Report](https://www.egba.eu/news-post/egba-publishes-annual-european-online-gambling-key-figures-2023/) |
+| **RTP Range (Slots)** | 95%–97% | [Malta Gaming Authority](https://www.mga.org.mt/), [ADM Italy](https://www.adm.gov.it) |
+| **Bonus Conversion Rate (Promos)** | 33% (range 30–36%) | [iGaming Business](https://igamingbusiness.com/marketing-affiliates/benchmarking-bonus-conversion-impact-2024/) |
+| **Market Player Churn Rate** | 40%–60% annual | [European Gambling Benchmarking](https://www.h2gc.com/) |
+| **Deposit Mean (Active Players, per month)** | €120–€200 | [UK Gambling Commission](https://www.gamblingcommission.gov.uk/statistics-and-research/public-data) |
+| **Feature Usage Baseline** | 35–40% (for new game features) | [Gaming Intelligence 2025 Feature Impact Study](https://www.gamingintelligence.com/) |
+| **Session Duration (Slots)** | 28–32 min | [Giocoresponsabile.info 2025](https://giocoresponsabile.info/analisi-mercato-gambling/) |
+
+> 🔍 The synthetic dataset was generated to mirror these documented industry patterns, so benchmarks, risk, retention and engagement in analyses are truly realistic for a commercial iGaming team.
 
 ---
 
@@ -66,9 +84,25 @@ P-value: 0.0000 ✅
 
 _*Both retention and deposits are higher for the treatment group:*_.
 
-![Barplot comparing retention across groups](https://github.com/DLPietro/ig-retention-test/blob/main/results/retention_rates.png)
+![Barplot comparing retention across groups](https://github.com/DLPietro/retention-test/blob/main/results/retention_rates.png)
 
-![Deposit amount histogram across groups](https://github.com/DLPietro/ig-retention-test/blob/main/results/deposit_boxplot.png)
+![Deposit amount histogram across groups](https://github.com/DLPietro/retention-test/blob/main/results/deposit_boxplot.png)
+
+
+---
+
+## 📈 Tableau Dashboard — Live, Interactive, Ready to Use
+
+I’ve built a **fully interactive dashboard** in Tableau Public that lets you:
+
+- Compare retention uplift from A/B testing
+- Visualize deposit statistics, session distributions and feature usage
+- Explore and filter all KPIs, side by side
+
+🔗 **[View the Live Dashboard →](https://public.tableau.com/views/ABRetentionChurnOverview-DLPietro/RetentionAnalysisDashboard?:language=it-IT&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)**
+
+![Tableau Dashboard Preview](https://github.com/DLPietro/retention-test/raw/dashboard/retention_dashboard.png)
+*Screenshot: Interact with A/B retention, deposits, sessions, feature rates. Dashboard ready for commercial and technical review.*
 
 
 ---
@@ -97,9 +131,9 @@ A Logistic Regression model is trained to predict churn:
 
 | **Feature** | **Coefficient** | **Interpretation** |
 |-------------|-----------------|--------------------|
-| `Sessions` | -0.027 | More sessions = lower churn |
-| `Deposits` | -0.0004 | More deposits = lower churn |
-| `Feature Used` | -0.197 | Used feature = much lower churn |
+| `Sessions` | -0.027 | More sessions → lower churn |
+| `Deposits` | -0.0004 | More deposits → lower churn |
+| `Feature Used` | -0.197 | Used feature → much lower churn |
 
 ---
 
@@ -126,23 +160,27 @@ In addition, I wanted to start using **Machine learning tools** to improve and e
 ```text
 user-retention-experiment/
 │
-├── data/
-│   └── simulated_users.csv              # Synthetic dataset
+├── dashboard/
+│   ├── ab_retention_overview.twbx       # A/B Retention Test Dashboard
+│   └── rentention_dashboard.png         # Tableau screenshot
 │
-├── notebooks/
-│   ├── ab_test_analysis.py              # Statistic tests
+├── data/
+│   ├── simulated_users.csv              # Simulated dataset
 │   └── player_data.db                   # MySQL database
 │
-├── scripts/
-│   ├── generate_data.py                 # Data generator
-│   ├── ab_test_analysis.py              # Statistic tests
-│   └── churn_model.py                   # Predictive LLM model
+├── notebooks/
+│   └── ab_test_analysis.py              # Statistic tests 
 │
 ├── results/
 │   ├── retention_rates.png              # Retention barplot
 │   ├── deposit_boxplot.png              # Deposit boxplot
 │   ├── churn_probability.png            # Churn model plot
 │   └── ab_summary.txt                   # Statistical test results
+│
+├── scripts/
+│   ├── generate_data.py                 # Data generator
+│   ├── ab_test_analysis.py              # Statistic tests
+│   └── churn_model.py                   # Predictive LLM model
 │
 ├── LICENSE                              # GNU License v3.0
 ├── README.md                            # Project Description
