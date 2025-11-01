@@ -165,10 +165,10 @@ user-retention-experiment/
 ├── data/
 │   ├── simulated_users.csv              # Simulated dataset
 │   ├── player_data.db                   # MySQL database
-│   └──churn_probabilities.csv          # Churn Probability distribution
+│   └── churn_probabilities.csv          # Churn Probability distribution
 │
 ├── notebooks/
-│   └── ab_test_analysis.py              # Statistic tests 
+│   └── retention_notebook.ipynb         # Jupyter Notebook 
 │
 ├── results/
 │   ├── retention_rates.png              # Retention barplot
@@ -178,8 +178,8 @@ user-retention-experiment/
 │
 ├── scripts/
 │   ├── generate_data.py                 # Data generator
-│   ├── ab_test_analysis.py              # Statistic tests
-│   └── churn_model.py                   # Predictive LLM model
+│   ├── ab_test_analysis.py              # Statistic A/B tests
+│   └── churn_model.py                   # Predictive Churn LLM model
 │
 ├── LICENSE                              # GNU License v3.0
 ├── README.md                            # Project Description
