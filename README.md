@@ -80,18 +80,7 @@ P-value: 0.0000 ✅
 
 ---
 
-## 📊 Visualization
-
-_*Both retention and deposits are higher for the treatment group:*_.
-
-![Barplot comparing retention across groups](https://github.com/DLPietro/retention-test/blob/main/results/retention_rates.png)
-
-![Deposit amount histogram across groups](https://github.com/DLPietro/retention-test/blob/main/results/deposit_boxplot.png)
-
-
----
-
-## 📈 Tableau Dashboard — Live, Interactive, Ready to Use
+## 📈 BI Dashboard
 
 I’ve built a **fully interactive dashboard** in Tableau Public that lets you:
 
@@ -104,8 +93,16 @@ I’ve built a **fully interactive dashboard** in Tableau Public that lets you:
 ![Tableau Dashboard Preview](https://github.com/DLPietro/retention-test/blob/main/dashboard/retention_dashboard.png)
 *Screenshot: Interact with A/B retention, deposits, sessions, feature rates. Dashboard ready for commercial and technical review.*
 
-
 ---
+
+## 📊 Visualization
+
+_*Both retention and deposits are higher for the treatment group:*_.
+
+![Barplot comparing retention across groups](https://github.com/DLPietro/retention-test/blob/main/results/retention_rates.png)
+
+![Deposit amount histogram across groups](https://github.com/DLPietro/retention-test/blob/main/results/deposit_boxplot.png)
+
 
 ## 🤖 Churn Prediction Model
 
@@ -126,6 +123,7 @@ A Logistic Regression model is trained to predict churn:
 
 > The model performs only slightly better than random. This is common with synthetic or highly balanced data and few features.
 
+---
 
 # 🧭 Feature Importance (Coefficients)
 
@@ -166,7 +164,8 @@ user-retention-experiment/
 │
 ├── data/
 │   ├── simulated_users.csv              # Simulated dataset
-│   └── player_data.db                   # MySQL database
+│   ├── player_data.db                   # MySQL database
+│   └──churn_probabilities.csv          # Churn Probability distribution
 │
 ├── notebooks/
 │   └── ab_test_analysis.py              # Statistic tests 
